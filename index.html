@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nirav Tripathi | Professional Website Developer</title>
+  <meta name="description" content="Custom business websites built fast and deployed on GitHub Pages, Netlify, and other static hosts." />
+  <meta property="og:title" content="Nirav Tripathi | Professional Website Developer" />
+  <meta property="og:description" content="Modern, fast, mobile-friendly websites for businesses and entrepreneurs." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.ico" />
+
+  <style>
+    :root {
+      --bg: #06111f;
+      --bg2: #0b1d33;
+      --card: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --muted: #b7c5d8;
+      --accent: #2ea8ff;
+      --accent-2: #6bc7ff;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(46,168,255,0.18), transparent 35%),
+        radial-gradient(circle at 20% 20%, rgba(107,199,255,0.08), transparent 25%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .section { padding: 6rem 0; }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: .75rem;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(46,168,255,0.45);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .95rem 1.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: all .25s ease;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #00111f;
+      box-shadow: 0 10px 30px rgba(46,168,255,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px) scale(1.02); }
+    .btn-secondary {
+      border-color: var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent-2);
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: #04101d;
+      z-index: 2000;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .spinner {
+      width: 54px;
+      height: 54px;
+      border: 4px solid rgba(255,255,255,0.15);
+      border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(6,17,31,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    .brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      min-height: calc(100vh - 80px);
+      display: grid;
+      align-items: center;
+      padding: 5rem 0;
+    }
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: .4rem .8rem;
+      border-radius: 999px;
+      background: rgba(46,168,255,0.12);
+      border: 1px solid rgba(46,168,255,0.25);
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: .85rem;
+    }
+    h1 {
+      font-size: clamp(2.7rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      margin: 0 0 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 700px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-card {
+      padding: 2rem;
+    }
+    .stat {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat:last-child { border-bottom: 0; }
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent-2);
+    }
+
+    /* Cards */
+    .features, .services, .pricing, .testimonials, .faq-list {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card-inner { padding: 2rem; }
+
+    /* Pricing */
+    .price-card.popular {
+      border-color: rgba(46,168,255,0.45);
+      transform: scale(1.03);
+    }
+    .tag {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      background: rgba(46,168,255,0.15);
+      color: var(--accent-2);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: .5rem 0 1rem;
+    }
+    ul.clean {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+    }
+    ul.clean li {
+      padding: .45rem 0;
+      color: var(--muted);
+    }
+
+    /* Timeline */
+    .timeline {
+      display: grid;
+      gap: 1rem;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .timeline-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%; display: grid; place-items: center;
+      background: rgba(46,168,255,0.12);
+      color: var(--accent-2);
+      font-weight: 800;
+    }
+
+    /* Testimonials */
+    .quote {
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    /* FAQ */
+    .faq-item { overflow: hidden; }
+    .faq-question {
+      width: 100%; background: none; border: 0; color: var(--text);
+      text-align: left; padding: 1.5rem; font: inherit; font-weight: 700;
+      cursor: pointer;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease;
+      color: var(--muted);
+      padding: 0 1.5rem;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding-bottom: 1.5rem;
+    }
+
+    /* Contact */
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font: inherit;
+    }
+    textarea { min-height: 160px; resize: vertical; }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Back to top */
+    #topBtn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 50px;
+      height: 50px;
+      border: 0;
+      border-radius: 50%;
+      display: none;
+      place-items: center;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #00111f;
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      z-index: 999;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .section { padding: 4rem 0; }
+      .timeline-item {
+        grid-template-columns: 56px 1fr;
+      }
+      .timeline-item span:last-child {
+        grid-column: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="spinner"></div></div>
+
+  <nav>
+    <div class="container nav-wrap">
+      <a href="#home" class="brand">Nirav<span>.</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="home" class="hero container">
+    <div class="hero-content">
+      <div class="reveal visible">
+        <div class="badge">Premium Website Development</div>
+        <h1>Professional Websites Built for Your Business</h1>
+        <p>Hi, I'm Nirav Tripathi. I design and develop high-converting websites for businesses and entrepreneurs. Fast, modern, mobile-friendly, and SEO optimized.</p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="#contact" class="btn btn-secondary">Contact Me</a>
+        </div>
+      </div>
+      <div class="card hero-card reveal">
+        <div class="stat"><strong>2–14 Days</strong>Typical Delivery</div>
+        <div class="stat"><strong>100%</strong>Mobile Responsive</div>
+        <div class="stat"><strong>SEO Ready</strong>Optimized for Google</div>
+        <div class="stat"><strong>Static Hosting</strong>GitHub Pages, Netlify & More</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">About Me</h2>
+      <p class="section-subtitle reveal">I build custom websites that are fast, modern, and designed to convert visitors into customers.</p>
+      <div class="grid features">
+        <div class="card reveal"><div class="card-inner"><h3>Mobile Responsive</h3><p>Looks perfect on phones, tablets, and desktops.</p></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Fast Performance</h3><p>Optimized for speed and smooth user experience.</p></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>SEO Optimization</h3><p>Structured to help your site rank in search engines.</p></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Hosting Deployment</h3><p>Deployed to GitHub Pages, Netlify, Vercel, or Cloudflare.</p></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Ongoing Support</h3><p>Updates and maintenance available when needed.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Services</h2>
+      <div class="grid services">
+        <div class="card reveal"><div class="card-inner"><h3>Business Websites</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Personal Portfolios</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Landing Pages</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Website Redesigns</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Maintenance & Updates</h3></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Pricing Plans</h2>
+      <div class="grid pricing">
+        <div class="card price-card reveal"><div class="card-inner"><h3>Starter</h3><div class="price">$99</div><ul class="clean"><li>1-page website</li><li>Mobile responsive</li><li>Contact form</li><li>Basic SEO</li><li>2–3 day delivery</li></ul><a href="#contact" class="btn btn-secondary">Get Started</a></div></div>
+        <div class="card price-card popular reveal"><div class="card-inner"><span class="tag">Most Popular</span><h3>Professional</h3><div class="price">$299</div><ul class="clean"><li>Up to 5 pages</li><li>Advanced design</li><li>SEO optimization</li><li>Contact form</li><li>5–7 day delivery</li></ul><a href="#contact" class="btn btn-primary">Choose Plan</a></div></div>
+        <div class="card price-card reveal"><div class="card-inner"><h3>Premium</h3><div class="price">$599</div><ul class="clean"><li>Unlimited pages</li><li>Custom animations</li><li>Blog integration</li><li>Priority support</li><li>7–14 day delivery</li></ul><a href="#contact" class="btn btn-secondary">Get Started</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="timeline" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Development Timeline</h2>
+      <div class="timeline">
+        <div class="card timeline-item reveal"><div class="timeline-number">1</div><div><strong>Consultation</strong></div><span>Same Day</span></div>
+        <div class="card timeline-item reveal"><div class="timeline-number">2</div><div><strong>Design Mockup</strong></div><span>1–2 Days</span></div>
+        <div class="card timeline-item reveal"><div class="timeline-number">3</div><div><strong>Development</strong></div><span>2–7 Days</span></div>
+        <div class="card timeline-item reveal"><div class="timeline-number">4</div><div><strong>Review & Revisions</strong></div><span>1–3 Days</span></div>
+        <div class="card timeline-item reveal"><div class="timeline-number">5</div><div><strong>Launch</strong></div><span>Same Day</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Why Choose Me</h2>
+      <div class="grid features">
+        <div class="card reveal"><div class="card-inner"><h3>Fast Delivery</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Affordable Pricing</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Modern Design</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>SEO Ready</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Static Hosting Compatible</h3></div></div>
+        <div class="card reveal"><div class="card-inner"><h3>Direct Communication</h3></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Testimonials</h2>
+      <div class="grid testimonials">
+        <div class="card reveal"><div class="card-inner"><p class="quote">“Nirav built our business website in less than a week and it looks incredible.”</p><strong>Sarah M.</strong><br><span>Salon Owner</span></div></div>
+        <div class="card reveal"><div class="card-inner"><p class="quote">“Fast communication, modern design, and great pricing.”</p><strong>James R.</strong><br><span>Consultant</span></div></div>
+        <div class="card reveal"><div class="card-inner"><p class="quote">“Our new website loads quickly and works perfectly on mobile.”</p><strong>Priya K.</strong><br><span>Restaurant Owner</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Frequently Asked Questions</h2>
+      <div class="faq-list grid">
+        <div class="card faq-item reveal"><button class="faq-question">How long does it take to build a website?</button><div class="faq-answer"><p>Most websites are completed within 2 to 14 days depending on complexity.</p></div></div>
+        <div class="card faq-item reveal"><button class="faq-question">Can you deploy it to GitHub Pages?</button><div class="faq-answer"><p>Yes. I can deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages.</p></div></div>
+        <div class="card faq-item reveal"><button class="faq-question">Will my website work on phones?</button><div class="faq-answer"><p>Absolutely. Every website is fully mobile responsive.</p></div></div>
+        <div class="card faq-item reveal"><button class="faq-question">Do you offer revisions?</button><div class="faq-answer"><p>Yes, each package includes revisions during the review phase.</p></div></div>
+        <div class="card faq-item reveal"><button class="faq-question">How does the contact form work?</button><div class="faq-answer"><p>Messages are sent directly to my Gmail using FormSubmit.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Start Your Project</h2>
+      <p class="section-subtitle reveal">Tell me about your business and website goals.</p>
+      <div class="card reveal">
+        <div class="card-inner">
+          <form action="https://formsubmit.co/niravdevtripathi@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Website Inquiry from Portfolio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="https://example.com/thank-you.html" />
+
+            <div class="form-grid">
+              <input type="text" name="Name" placeholder="Your Name" required />
+              <input type="email" name="Email" placeholder="Email Address" required />
+              <input type="text" name="Business Name" placeholder="Business Name" />
+              <select name="Project Type">
+                <option>Business Website</option>
+                <option>Portfolio</option>
+                <option>Landing Page</option>
+                <option>Redesign</option>
+                <option>Maintenance</option>
+              </select>
+              <input type="text" name="Budget" placeholder="Budget" />
+              <input type="text" name="Timeline" placeholder="Desired Timeline" />
+            </div>
+
+            <textarea name="Message" placeholder="Tell me about your project..." required></textarea>
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <strong>Nirav Tripathi</strong><br>
+      Website Development Services<br>
+      <a href="mailto:niravtripathi@gmail.com">niravtripathi@gmail.com</a><br><br>
+      © 2026 Nirav Tripathi. All rights reserved.
+    </div>
+  </footer>
+
+  <button id="topBtn" aria-label="Back to top">↑</button>
+
+  <script>
+    // Loader
+    window.addEventListener('load', () => {
+      document.getElementById('loader').classList.add('hidden');
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.parentElement.classList.toggle('active');
+      });
+    });
+
+    // Back to top
+    const topBtn = document.getElementById('topBtn');
+    window.addEventListener('scroll', () => {
+      topBtn.style.display = window.scrollY > 500 ? 'grid' : 'none';
+    });
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
+
